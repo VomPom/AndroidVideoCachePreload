@@ -25,7 +25,7 @@ public class VideoProxyHelper {
     private long maxCacheLength = DEFAULT_CACHE_LENGTH;
     private Map<String, String> globalHeaders = new HashMap<>();
 
-    static VideoProxyHelper getInstance() {
+    public static VideoProxyHelper getInstance() {
         if (videoProxyHelper == null) {
             synchronized (VideoProxyHelper.class) {
                 if (videoProxyHelper == null) {
@@ -51,11 +51,8 @@ public class VideoProxyHelper {
                 .build();
     }
 
-    void setBuildConfig(Object maxCacheLength) {
-        Map argumentMap = null;
-        if (maxCacheLength instanceof Map) {
-            argumentMap = (Map) maxCacheLength;
-        }
+
+    public void setBuildConfig(Map<String, Object> argumentMap) {
         if (argumentMap == null) {
             return;
         }
@@ -64,7 +61,7 @@ public class VideoProxyHelper {
         }
     }
 
-    String getProxyUrl(Context context, String url) {
+    public String getProxyUrl(Context context, String url) {
         HttpProxyCacheServer proxy = VideoProxyHelper.getInstance().getProxy(context);
         return proxy.getProxyUrl(url, false);
     }
