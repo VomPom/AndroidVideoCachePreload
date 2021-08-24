@@ -1,2 +1,3 @@
 rootProject.name = "AndroidVideoCachePreload"
 include ':app'
+include ':VideoPreload'

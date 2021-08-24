@@ -1,5 +1,6 @@
 package julis.wang;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.NotNull;
 
 import cn.jzvd.JzvdStd;
-import julis.wang.cache.VideoPreLoadModel;
-import julis.wang.cache.VideoPreLoader;
-import julis.wang.cache.VideoProxyHelper;
+import julis.wang.videopreload.VideoPreLoadModel;
+import julis.wang.videopreload.VideoProxyHelper;
+
 
 /*******************************************************
  *
@@ -26,7 +27,7 @@ import julis.wang.cache.VideoProxyHelper;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder> {
     private static final String TEST_URL_FORMAT = "https://laravel-admin.org/test/videos/K0%d.mp4";
-    private static final int PRE_LOAD_SIZE = 5 * 1024 * 1024;
+    private static final int PRE_LOAD_SIZE = 500 * 1024;
 
     @NotNull
     @Override
@@ -56,17 +57,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
             jzvdStd.preloading = false; // 禁止库里面的预加载功能，方便测试VideoCache的功能
         }
 
+        @SuppressLint("DefaultLocale")
         public void updateView(int position) {
             String originalUrl = String.format(TEST_URL_FORMAT, 10 + position);
-            String proxyUrl = getProxyURL(originalUrl);
-            VideoPreLoadModel videoPreLoadModel = new VideoPreLoadModel(PRE_LOAD_SIZE, proxyUrl, originalUrl);
-            VideoPreLoader.getInstance().addPreloadURL(videoPreLoadModel);
-            jzvdStd.setUp(proxyUrl, originalUrl);
+            VideoPreLoadModel videoPreLoadModel = new VideoPreLoadModel(PRE_LOAD_SIZE, originalUrl);
+            String playUrl = VideoProxyHelper.getInstance().getProxyUrl(context, videoPreLoadModel);
+            jzvdStd.setUp(playUrl, originalUrl);
             jzvdStd.titleTextView.setText(originalUrl);
-        }
-
-        private String getProxyURL(String videoUrl) {
-            return VideoProxyHelper.getInstance().getProxyUrl(context, videoUrl);
         }
     }
 }

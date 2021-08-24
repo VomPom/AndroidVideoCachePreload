@@ -11,13 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.jzvd.Jzvd;
-import julis.wang.cache.VideoProxyHelper;
+import julis.wang.videopreload.VideoProxyHelper;
 
 
 public class MainActivity extends AppCompatActivity {
     private EditText etUrl;
-
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         Map<String, Object> config = new HashMap<>();
-        config.put("maxCacheLength", 5 * 100 * 1024); //设置默认预加载大小
+        config.put("maxCacheLength", 128 * 100 * 1024); //设置默认本地最大缓存大
         VideoProxyHelper.getInstance().setBuildConfig(config);
 
-        recyclerView = findViewById(R.id.rv_video_list);
+        RecyclerView recyclerView = findViewById(R.id.rv_video_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new VideoAdapter());
     }

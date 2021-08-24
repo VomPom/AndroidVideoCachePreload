@@ -1,4 +1,4 @@
-package julis.wang.cache;
+package julis.wang.videopreload;
 
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -27,10 +27,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class VideoPreLoader {
     private static VideoPreLoader loader;
-    private Handler handler;
-    private HandlerThread handlerThread;
-    private List<String> cancelList = new CopyOnWriteArrayList<>();
-    private List<String> preLoadList = new CopyOnWriteArrayList<>();
+    private final Handler handler;
+    private final HandlerThread handlerThread;
+    private final List<String> cancelList = new CopyOnWriteArrayList<>();
+    private final List<String> preLoadList = new CopyOnWriteArrayList<>();
 
     private VideoPreLoader() {
         handlerThread = new HandlerThread("VideoPreLoaderThread");

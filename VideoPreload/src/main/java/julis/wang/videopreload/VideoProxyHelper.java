@@ -1,4 +1,4 @@
-package julis.wang.cache;
+package julis.wang.videopreload;
 
 import android.content.Context;
 
@@ -61,15 +61,19 @@ public class VideoProxyHelper {
         }
     }
 
-    public String getProxyUrl(Context context, String url) {
+    public String getProxyUrl(Context context, VideoPreLoadModel videoPreLoadModel) {
         HttpProxyCacheServer proxy = VideoProxyHelper.getInstance().getProxy(context);
-        return proxy.getProxyUrl(url, false);
+        VideoPreLoader.getInstance().addPreloadURL(videoPreLoadModel);
+        return proxy.getProxyUrl(videoPreLoadModel.getOriginalUrl(), false);
     }
 
-    private long getFolderSize(File file) {
+    public long getFolderSize(File file) {
         long size = 0;
         try {
             File[] fileList = file.listFiles();
+            if (fileList == null) {
+                return -1;
+            }
             for (File value : fileList) {
                 size += value.isDirectory() ? getFolderSize(value) : value.length();
             }
