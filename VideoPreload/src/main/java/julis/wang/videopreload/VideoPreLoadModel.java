@@ -17,8 +17,8 @@ public class VideoPreLoadModel {
     public String originalUrl;
     public Map<String, String> header;
 
-    public VideoPreLoadModel(int preLoadBytes, String originalUrl) {
-        this(preLoadBytes, originalUrl, new HashMap<>());
+    public VideoPreLoadModel(int preLoadBytes, String resUrl) {
+        this(preLoadBytes, resUrl, new HashMap<>());
     }
 
     public VideoPreLoadModel(int preLoadBytes, String originalUrl, Map<String, String> header) {

@@ -83,7 +83,7 @@ public class VideoPreLoader {
         }
         HttpURLConnection conn = null;
         try {
-            URL myURL = new URL(data.proxyUrl);
+            URL myURL = new URL(data.originalUrl);
             conn = (HttpURLConnection) myURL.openConnection();
             addConnectionHeader(conn, data);
             conn.connect();
